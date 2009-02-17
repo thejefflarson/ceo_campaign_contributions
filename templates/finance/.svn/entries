@@ -1,0 +1,86 @@
+8
+
+dir
+11
+http://jefflarfinance.svn.beanstalkapp.com/nyt_finance/nyt/templates/nytfinance
+http://jefflarfinance.svn.beanstalkapp.com/nyt_finance
+
+
+
+2008-11-04T16:29:22.632898Z
+7
+jefflar
+
+
+svn:special svn:externals svn:needs-lock
+
+industry_list.html
+file
+0
+
+
+add
+
+base_finance.html
+file
+0
+
+
+add
+
+split_bar.html
+file
+0
+
+
+add
+
+ceo_list.html
+file
+0
+
+
+add
+
+ceo_generic.html
+file
+0
+
+
+add
+
+feeds
+dir
+
+
+
+add
+
+industry_detail.html
+file
+0
+
+
+add
+
+candidate_list.html
+file
+0
+
+
+add
+
+ceo_detail.html
+file
+0
+
+
+add
+
+ceo_map.js
+file
+0
+
+
+add
+

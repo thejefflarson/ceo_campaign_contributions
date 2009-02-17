@@ -1,0 +1,21 @@
+{% extends "finance/feeds/base_kml.xml" %}
+{% block icons %}
+{% for icon, href in icons.items %}
+<Style id="{{icon}}">
+    <IconStyle id="{{icon}}icon">
+        <Icon>
+            <href>{{href}}</href>
+        </Icon>
+    </IconStyle>
+</Style>
+{% endfor %}
+{% endblock %}
+
+{% block placemarks %}{% for place in places %}
+<Placemark id="ceo-{{forloop.counter}}">
+<name>{{ place.name|escape }}</name>
+<description>{{ place.description|escape }}</description>
+<Point>
+    <coordinates>{{ place.point.y }},{{ place.point.x }}</coordinates>
+</Point>
+</Placemark>{% endfor %}{% endblock %}

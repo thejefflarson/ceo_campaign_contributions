@@ -1,0 +1,41 @@
+{% load extras %}
+{% if ceo.total_donations %}
+    <li class="ceo-item">
+            <ul class="chartlist">
+                <li>
+               <h3><a href="{% url ceo_detail ceo.id %}">{{ ceo.first_name }} {{ ceo.last_name }}</a></h3>
+                <span class="count">${{ceo.total_donations}}</span> 
+                {% splitbar ceo.total_donations_by_party ceo.total_donations %}
+                </li>
+            </ul>
+           <h4><a href="http://{{ceo.website}}">{{ ceo.company_name }}</a> ({{ ceo.company_address.city }}, {{ ceo.company_address.state }})
+           {% if ceo.industry.id %}
+                <br />(<a href="{% url industry_detail ceo.industry.id %}">{{ ceo.industry }}</a>)
+           {% endif %}
+           </h4>
+           <table>
+                <tr>
+                    <th>
+                        Candidate
+                    </th>
+                    <th>
+                       Amount 
+                    </th>
+                    <th>
+                        Date
+                    </th>
+                </tr>
+
+                {% for donor in ceo.donor_set.all %} 
+                    {% for donation in donor.donation_set.all %}
+                    <tr>
+                        <td> {{ donation.candidate.name }}</td>
+                        <td> ${{ donation.donation_amount }}</td>
+                        <td>{{ donation.donation_date|date:"F jS, Y" }}</td>
+                    </tr>
+                    {% endfor %}
+                {% endfor %}
+            </table>
+            
+    <li>
+{% endif %}

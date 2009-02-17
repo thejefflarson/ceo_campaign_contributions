@@ -1,0 +1,79 @@
+8
+
+dir
+0
+http://jefflarfinance.svn.beanstalkapp.com/nyt_finance/nyt/nytfinance/evolutions
+http://jefflarfinance.svn.beanstalkapp.com/nyt_finance
+add
+
+
+
+
+
+
+
+svn:special svn:externals svn:needs-lock
+
+add_approval_fields_to_donors.py
+file
+
+
+
+add
+
+add_approval_fields_to_donors.pyc
+file
+
+
+
+add
+
+
+
+
+
+has-props
+has-prop-mods
+
+__init__.py
+file
+
+
+
+add
+
+__init__.pyc
+file
+
+
+
+add
+
+
+
+
+
+has-props
+has-prop-mods
+
+add_approval_fields_to_donations.py
+file
+
+
+
+add
+
+add_approval_fields_to_donations.pyc
+file
+
+
+
+add
+
+
+
+
+
+has-props
+has-prop-mods
+

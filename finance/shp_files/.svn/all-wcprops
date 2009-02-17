@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/nyt_finance/!svn/ver/7/nyt/nytfinance/shp_files
+END
+confirm.py
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/nyt_finance/!svn/ver/6/nyt/nytfinance/shp_files/confirm.py
+END
+index
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/nyt_finance/!svn/ver/4/nyt/nytfinance/shp_files/index
+END
+dl.sh
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/nyt_finance/!svn/ver/4/nyt/nytfinance/shp_files/dl.sh
+END
+zip_importer.py
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/nyt_finance/!svn/ver/7/nyt/nytfinance/shp_files/zip_importer.py
+END

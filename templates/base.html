@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<title>
+{% block title %}{% endblock %}
+</title>
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.6.0/build/reset/reset-min.css">
+<link rel="stylesheet" type="text/css" href="/media/css/base.css">
+{% block extra_css %}{% endblock %}
+</head>
+<body>
+<div id="header">
+    <div class="container">
+        <div class="column span-4">
+       	    <img src="/media/images/democracy.png" alt="Democracy!">
+        </div>
+        <div id="header_note" class="column span-2">
+        {% block extra_header %}{% endblock %} 
+        </div>
+    </div>
+</div>
+{% block content %}
+{% endblock %}
+<div id="footer">
+    <div class="container">
+        <div class="column span-6">
+            {% block footer %}
+                Built by <a href="http://anchylosis.blogspot.com">Jeff Larson</a> <a href="http://www.djangoproject.com/"><img src="http://media.djangoproject.com/img/badges/djangomade124x25_grey.gif" border="0" alt="Made with Django." title="Made with Django." /></a> and <a href="http://developer.nytimes.com"><img src="http://graphics8.nytimes.com/images/misc/nytlogo153x23.gif" /></a> apis. <a href="/feedback/">Ideas, Questions, or Suggestions?</a>
+            {% endblock %}
+        </div>
+    </div>
+</div>
+{% block extra_js %}{% endblock %}
+</body>
+</html>
+

@@ -1,0 +1,10 @@
+from django import template
+
+register = template.Library()
+@register.simple_tag
+def percent(part, whole):
+    try:
+        return int(round(float(part)/float(whole) * 100))
+    except ZeroDivisionError:
+        return 0
+

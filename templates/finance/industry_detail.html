@@ -1,0 +1,23 @@
+{% extends "finance/base_finance.html" %}
+{% load extras %}
+{% block title %}
+{{ block.super }} {{ object.name }}
+{% endblock %}
+{% block extra_js %}
+{% map_ceos object.ceo_set.all %}
+{% endblock %}
+{% block left %}
+<ul class="chartlist">
+    <li>
+        <h1>{{ object.name }}</h1>
+        <span class="count">${{object.total_donations}}</span> 
+        {% splitbar object.total_donations_by_party object.total_donations %}
+    <li>
+</ul>
+<ul>
+{% for ceo in object.ceo_set.all %}
+    {% ceo_generic ceo %}
+{% endfor %}
+</ul>
+{% endblock %}
+

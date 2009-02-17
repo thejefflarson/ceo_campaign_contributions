@@ -1,0 +1,44 @@
+8
+
+dir
+0
+http://jefflarfinance.svn.beanstalkapp.com/nyt_finance/nyt/templates/nytfinance/feeds
+http://jefflarfinance.svn.beanstalkapp.com/nyt_finance
+add
+
+
+
+
+
+
+
+svn:special svn:externals svn:needs-lock
+
+placemarks.xml
+file
+
+
+
+add
+
+ceo_donors_all_title.html
+file
+
+
+
+add
+
+ceo_donors_all_description.html
+file
+
+
+
+add
+
+base_kml.xml
+file
+
+
+
+add
+

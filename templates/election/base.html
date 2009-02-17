@@ -1,0 +1,118 @@
+<html>
+<head>
+<title>{% block title %}Watching the Detectives{% endblock %}</title>
+<script src="http://www.google.com/jsapi"></script>
+<script>
+    google.load("jquery", "1");
+</script>    
+<script src="http://flot.googlecode.com/svn/trunk/jquery.flot.js"></script>
+<style>
+/*move to s5eperate css*/
+* { 
+  margin: 0; 
+  padding: 0; 
+  list-style-type: none;
+}
+body { 
+  font-family: Helvetica, Arial, sans-serif; 
+  font-size: 15px;
+  color: #333; 
+}
+a { 
+ color: #2D7BB2; 
+ text-decoration: none; 
+ font-weight: bold; 
+}
+a:hover { 
+  color: #333; 
+}
+h1, h2{
+  display:block;
+  width: 100%;
+}
+.clearfix:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+.clearfix {display: inline-block;}
+
+/* Hides from IE-mac \*/
+* html .clearfix {height: 1%;}
+.clearfix {display: block;}
+/* End hide from IE-mac */
+
+
+.candidate{ 
+    clear: both;
+    margin: 1em 0em;
+}
+.party {
+  margin: 1em 0em;
+}
+
+.timeline { 
+  font-size: 0.75em; 
+  height: 10em;
+  display:block;
+}
+
+
+.timeline li { 
+  height: 8em;
+  position: relative;
+  float: left;
+  width: 2.5em;
+  margin: 1em 0em;
+  border: .2em solid white;
+}
+
+.timeline li a { 
+  display: block;
+  height: 100%;  
+}
+
+.timeline li .time { 
+  display: block; 
+  position: absolute; 
+  bottom: -2em; 
+  line-height: 2em;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.timeline li a .votes { 
+  background: #AAA; 
+}
+.timeline li a .numvotes, .votes{
+  display: block; 
+  position: absolute; 
+  bottom: 0; 
+  left: 0; 
+  text-indent: -9999px; 
+  overflow: hidden;
+  width: 100%; 
+}
+.timeline li:hover { 
+   background: #EFEFEF; 
+   width: 6em;
+}
+.timeline li a:hover .votes { 
+   background: #2D7BB2; 
+}
+
+.timeline li a:hover .numvotes { 
+    text-indent: 3px;
+}
+</style>
+</head>
+<body>
+{% block content %}
+
+{% endblock %}
+</body>
+</html>

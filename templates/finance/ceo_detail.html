@@ -1,0 +1,77 @@
+{% extends "finance/base_finance.html" %}
+{% load extras %}
+{% block title %}
+{{ block.super }} {{ object.first_name }} {{ object.last_name }} 
+{% endblock %}
+{% block extra_js %}
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAo1FSG5FcFxwjbAvjzMn_DRSwTQmyLrXXUnBi9bfEvTXJ8w45MRRjT2_c29y7wQB1MF7h5AQU-ukxrw" type="text/javascript"></script>
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("jquery", "1", {uncompressed:true});
+    </script>
+    <script>
+    var icon_img = { 'R': '/media/images/red_circle.png', 'D': '/media/images/blue_circle.png' };
+    var coords = []
+    var map;
+    var leans;
+    function initialize() {
+        if (GBrowserIsCompatible()) {
+            map = new GMap2(document.getElementById("map_canvas"));
+            map.addControl(new GLargeMapControl());
+            $.getJSON("{% url ceo_index %}{{object.id}}-.json", 
+                function(data){
+                        item = data[0];
+                        var total_donations = 956488;
+                        var icon = new GIcon(G_DEFAULT_ICON);
+                        icon.image = icon_img[item.icon];
+                        icon.shadow = '';
+                        icon.iconSize = new GSize(item.total/total_donations * 10000 * 3,  item.total/total_donations * 10000 * 3);
+                        icon.iconAnchor = new GPoint(icon.iconSize.width/2, icon.iconSize.height/2);
+                        markerOptions = { icon: icon, title: item.title};
+                        var lat_lon = new GLatLng(item.pointlat,item.pointlong);
+                        map.setCenter(lat_lon, {% block scale %}12{% endblock%}); 
+                        map.addOverlay(new GMarker(lat_lon, markerOptions));
+                });
+            $.ajax({
+                type: 'GET', 
+                url:"{% url zip_data object.company_address.zip.code %}", 
+                async:false, 
+                success: function (msg){ showzip(msg) }
+            });
+        }
+    } 
+    function showzip(leans){
+        var leans_dict = { 'R': ['Republican', '#812526', '#815354'], 'D': ['Democratic', '#182969', '#394369'] };
+        if(leans != ''){
+            $("#leans").html(", which leans <span class ='" + leans + "'>"  + leans_dict[leans][0] +"</span> in total campaign financing");
+            $.getJSON("{% url zips_to_json object.company_address.zip.code %}", function (data){
+                    $.each(data.coordinates, function() {
+                        $.each(this, function(){
+                                $.each(this, function(){
+                                        coords.push(new GLatLng(this[1], this[0]));
+                                    });
+                                });
+                            });
+                        poly = new GPolygon(coords, leans_dict[leans][1], 2, 1, leans_dict[leans][2], 0.2);
+                        map.addOverlay(poly);
+                });
+        }
+
+    }
+    $("document").ready(function () {
+        initialize();
+        {% block extra_init_map %}{% endblock %}
+    });
+    </script>
+{% endblock %}
+
+{% block left %}
+    <ul>
+        {% ceo_generic object %}
+    </ul>
+{% endblock %}
+
+{% block legend %}
+<span class="{{object.leans}}">{{ object.first_name }} {{object.last_name}}</span> works in zip code {{ object.company_address.zip.code }} ({{ object.company_address.city }}, {{ object.company_address.state  }})<span id="leans"></span>.
+    <p><a href="{{ object.get_edit_url }}" class="small" rel="nofollow">(edit this ceo)</a></p>
+{% endblock %}

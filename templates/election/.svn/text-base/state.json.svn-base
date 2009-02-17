@@ -1,0 +1,13 @@
+{% regroup stats by candidate.party as party_list %}
+[
+    {% for party in party_list %}
+        {% regroup party.list by candidate.name as candidate_list%}
+        {% for candidate in candidate_list %}
+            { 
+                "label": "{{candidate.grouper}}",
+                "data": [ {% for stat in candidate.list %} [{{ stat.time|date:"Hi"}},{{ stat.votes }} ]{% if not forloop.last %}, {% endif %}{% endfor %} ]
+            }{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+    {% if not forloop.last %}, {% endif %}
+    {% endfor %}
+]

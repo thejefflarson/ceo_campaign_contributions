@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="/media/css/finance.css">
+{% endblock %}
+{% block title %}
+CEO Politics - Corporate Donations in the 2008 Presidential Race - 
+{% endblock %}
+{% block extra_header %}
+<h2>Corporate Donations in the 2008 Presidential Race</h2>
+<b><a href="{% url finance_index %}">All Donations</a>, <a href="{% url ceo_index %}">By Ceo</a>, <a href="{% url industry_index %}">By Industry</a>.</b>
+{% endblock %}
+
+{% block content %}
+    {% block map %}
+    </div>
+    <div id="map_canvas"></div>
+    <div class="container">
+    {% endblock %}
+        <div class="column span-4">
+        {% block left %}
+
+        {% endblock %}
+        </div>
+        <div class="column span-2">
+        {% block legend %}
+        The circles (<img src="/media/images/blue_circle.png" style="display:inline; position:relative; top:4px;" width="16" height="16" /><img src="/media/images/red_circle.png" style="display:inline; position:relative; top:4px;" width="16" height="16" />) above are each CEO's relative share of the total financial contributions. The split bars (<img src="/media/images/splitbars.png" style="display:inline" />) under each CEO's name, on the left, are how each CEO's donations break down.  
+        {% endblock %}
+        {% block right %}
+
+        {% endblock %}
+        </div>
+    </div>
+{% endblock %}

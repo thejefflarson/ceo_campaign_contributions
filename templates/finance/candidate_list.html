@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load extras %}
+{% block content %}
+<ul class="chartlist">
+{% for candidate in object_list %}
+<li>
+    <a href="{% url candidate_detail candidate.id %}">{{ candidate.name }}</a>
+    <span class="count">${{candidate.total_donations}}</span> 
+    <span class="index {{candidate.party.name }}" style="width:{% widthratio candidate.total_donations candidate.party.total_donations 100 %}%">
+({% widthratio candidate.total_donations candidate.party.total_donations 100 %}%)</span>
+<li>
+{% endfor %}
+</ul>
+{% endblock %}

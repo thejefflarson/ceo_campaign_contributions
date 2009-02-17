@@ -1,0 +1,34 @@
+{% extends "finance/base_finance.html" %}
+{% load extras %}
+{% block extra_js %}
+{% map_ceos ceo_list.object_list %}
+{% endblock %}
+{% block title %}
+    {{block.super}} All Ceos (Page {{ ceo_list.number }})
+{% endblock %}
+
+    {% block left %}
+    <ul>
+    {% for ceo in ceo_list.object_list %}
+        {% ceo_generic ceo %}
+    {% endfor %}
+    </ul>
+    {% endblock %}
+    {% block right %}
+    <div class="pagination">
+        <span class="step-links">
+            {% if ceo_list.has_previous %}
+                <a href="?page={{ ceo_list.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page <b>{{ ceo_list.number }}</b> of <b>{{ ceo_list.paginator.num_pages }}</b>.
+            </span>
+
+            {% if ceo_list.has_next %}
+                <a href="?page={{ ceo_list.next_page_number }}">next</a>
+            {% endif %}
+        </span>
+    </div>
+    {% endblock %}
+

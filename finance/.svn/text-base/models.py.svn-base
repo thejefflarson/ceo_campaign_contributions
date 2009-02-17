@@ -1,0 +1,157 @@
+from django.contrib.gis.db import models
+
+# Create your models here.
+
+class Zip(models.Model):
+    code = models.CharField(max_length=5) # not unique due to discontiguous zip codes
+    poly = models.MultiPolygonField(srid=4269, null=True) #mfing uspa, and census don't line up
+    objects = models.GeoManager()
+    def __unicode__(self):
+        return "%s" % self.code
+
+class Party(models.Model):
+    name = models.CharField(max_length=24, unique=True)
+    def _total_donations(self):
+        candidates = self.candidate_set.all()
+        total_donations = 0
+        for candidate in candidates:
+            total_donations += candidate.total_donations
+        return total_donations
+    total_donations = property(_total_donations)
+
+    def __unicode__(self):
+        return "%s" % self.namee
+
+class Candidate(models.Model):
+    name = models.CharField(max_length=63, unique=True)
+    party = models.ForeignKey(Party)
+    
+    def _total_donations(self):
+        donations = self.donation_set.all()
+        total_donations = 0
+        for donation in donations:
+            total_donations += donation.donation_amount
+        return total_donations
+    total_donations = property(_total_donations)
+
+    class Meta:
+        ordering = ['-party', 'name']
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('candidate_detail' [str(self.id)])
+
+
+class Address(models.Model):
+    address = models.TextField()
+    address2 = models.TextField(null=True)
+    state = models.CharField(max_length=2)
+    city = models.CharField(max_length=63)
+    zip = models.ForeignKey(Zip)
+    point = models.PointField(srid='4326', null=True)
+    objects = models.GeoManager()
+    class Meta:
+        unique_together = ('address', 'address2', 'city', 'state', 'zip')
+
+
+class Industry(models.Model):
+    name = models.CharField(max_length=63)
+   
+    def _total_donations(self):
+        return sum([c.total_donations for c in self.ceo_set.all()])
+    total_donations = property(_total_donations)
+
+    def _total_donations_by_party(self):
+        ceos = self.ceo_set.all()
+        total_donations = {}
+        for ceo in ceos:
+            donors = ceo.donor_set.all()
+            for donor in donors:
+                donations = donor.donation_set.all()
+                for donation in donations:
+                    if donation.candidate.party.name in total_donations:
+                        total_donations[donation.candidate.party.name] += donation.donation_amount 
+                    else:
+                        total_donations[donation.candidate.party.name] = donation.donation_amount
+        return total_donations
+    total_donations_by_party = property(_total_donations_by_party)
+    
+    class Meta:
+        ordering = ["name"]
+    def __unicode__(self):
+        return self.name
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('industry_detail' [str(self.id)])
+
+class CeoManager(models.GeoManager):
+    def total_donations(self):
+        return sum([c.total_donations for c in self.objects.all()])
+    
+    def get_query_set(self):
+        return super(CeoManager, self).get_query_set().filter(donor__isnull=False).distinct()
+
+class Ceo (models.Model):
+#add slug field with first name last name
+    first_name = models.CharField(max_length=63)
+    last_name = models.CharField(max_length=63)
+    website = models.URLField()
+    industry = models.ForeignKey(Industry, null=True)
+    company_name = models.CharField(max_length=63)
+    company_address = models.ForeignKey(Address)
+    ctime = models.DateTimeField(auto_now=True)
+    mtime = models.DateTimeField(auto_now_add=True)
+    donated = CeoManager()
+    objects = models.GeoManager()
+    def __unicode__(self):
+        return self.first_name + " " + self.last_name
+    
+    def _total_donations_by_candidate(self, candidate):
+        donors = self.donor_set.all()
+        total_donations = 0
+        for donor in donors:
+            donations = donor.donation_set.filter(candidate=candidate)
+            for donation in donations:
+                total_donations += donation.donation_amount
+        return total_donations
+    total_donations_by_candidate = property(_total_donations_by_candidate)
+    
+    def _total_donations(self):
+        donors = self.donor_set.all()
+        total_donations = 0
+        for donor in donors:
+            total_donations += sum(donor.donation_set.values_list('donation_amount', flat=True))
+        return total_donations
+    total_donations = property(_total_donations)
+
+    class Meta:
+        unique_together = ('company_name', 'last_name')
+        ordering = ['last_name']
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('ceo_detail', [str(self.id)])
+
+class Donor (models.Model):
+    ceo = models.ForeignKey(Ceo)
+    first_name = models.CharField(max_length=63)
+    last_name = models.CharField(max_length=63)
+    donor_address = models.ForeignKey(Address)
+    ctime = models.DateTimeField(auto_now=True)
+    mtime = models.DateTimeField(auto_now_add=True)
+    objects = models.GeoManager()
+    class Meta:
+        unique_together = ('donor_address','first_name', 'last_name')
+
+
+class Donation (models.Model):
+    candidate = models.ForeignKey(Candidate)
+    donor = models.ForeignKey(Donor)
+    donation_amount = models.IntegerField()
+    donation_date = models.DateField()
+    ctime = models.DateTimeField(auto_now=True)
+    objects = models.GeoManager()
+    class Meta:
+        unique_together = ('candidate', 'donor', 'donation_amount', 'donation_date')
+        ordering = ['donation_date']

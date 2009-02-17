@@ -1,0 +1,18 @@
+{% extends "finance/base_finance.html" %}
+{% block title %}
+{{ block.super }} All Industries
+{% endblock %}
+{% load extras %}
+{% block content %}
+<div class="container">
+<ul class="chartlist">
+{% for industry in objects %}
+<li>
+    <a href="{% url industry_detail industry.id %}">{{ industry.name }}</a>
+    <span class="count">${{industry.total_donations}}</span> 
+    {% splitbar industry.total_donations_by_party industry.total_donations %}
+<li>
+{% endfor %}
+</ul>
+</div>
+{% endblock %}

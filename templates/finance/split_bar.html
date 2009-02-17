@@ -1,0 +1,5 @@
+    <div class="split-bar">
+    {% for k,v in split.items %}
+        <span class="index {{k}}" style="width:{% widthratio v total 100 %}%">{% widthratio v total 100%}</span>
+    {% endfor %} 
+    </div>

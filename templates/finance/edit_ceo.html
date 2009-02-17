@@ -1,0 +1,78 @@
+{% extends "finance/ceo_detail.html" %}
+{% load extras %}
+
+{% block title %}
+{{ block.super }} - Editing
+{% endblock %}
+{% block extra_js %}
+    <script>
+    function show_donors(){
+    {% for donor in donors %}
+        icon = new GIcon(G_DEFAULT_ICON);
+        icon.image = "/media/images/{{ forloop.counter }}.png";
+        icon.shadow = '';
+        icon.iconSize = new GSize(16,16);
+        icon.iconAnchor = new GPoint(icon.iconSize.width/2, icon.iconSize.height/2);
+
+        lat_lon = new GLatLng({{donor.donor_address.point.x}}, {{donor.donor_address.point.y}});
+        mrkr = new GMarker(lat_lon, 
+                            { icon: icon, title: "{{ object.first_name }} {{ object.last_name }}" }
+                        );
+        map.addOverlay(mrkr);
+    {% endfor %}
+    }
+    </script>
+    {{ block.super }}
+{% endblock %}
+{% block extra_init_map %}
+    $("a.delete_donor").click( function (e) {
+        $(this).replaceWith("<br />Thanks for the heads up.");
+        $("#msg").load($(this).attr('href'));
+        e.preventDefault();
+        });
+    setTimeout("show_donors()", 1000); 
+{% endblock %}
+{% block scale %}
+10
+{% endblock %}
+
+{% block left %}
+{{ block.super }}
+<h2>Donations on Record for {{ object.first_name }} {{ object.last_name }}</h2>
+<p>
+Something amiss? Because I have faith in you to do the right thing, you can choose to delete each of {{ object.first_name }} {{ object.last_name }}'s records (changes will appear after approval). I'm counting on you to tell me where I messed up.
+</p>
+<div id="msg"></div> 
+    {% for donor in donors %}
+        <b>Donation made from:</b> <img src="/media/images/{{ forloop.counter }}.png" style="display:inline; position:relative; top: 3px" /> {{ donor.donor_address.city }}, {{ donor.donor_address.state }}
+                <span class="small">
+                {% if donor.approved %}
+                    <a href="{% url delete_donor donor.id %}" class="delete_donor" rel="nofollow">Delete</a>
+                {% else %}
+                    <br />Pending approval to {{ donor.get_operation_display }}.
+                {% endif %}
+                </span> 
+    <table>
+        <tr>
+            <th>
+               Candidate
+            </th>
+            <th>
+                Amount
+            </th>
+            <th>
+                Date
+            </th>
+        </tr>
+        {% for donation in donor.donation_set.live %}
+        <tr> 
+            <td>{{ donation.candidate_name  }}</td>
+            <td><span class="{{ donation.party_name }}">
+            {{ donation.donation_amount }}</span></td>
+            <td>{{donation.donation_date|date:"F jS, Y"}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endfor %}
+</form>
+{% endblock %}

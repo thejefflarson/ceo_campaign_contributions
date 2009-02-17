@@ -1,0 +1,54 @@
+import simplejson, urllib, pprint
+NYT_BASE = "http://api.nytimes.com/svc/elections/us/"
+
+
+class ResultError(Exception):
+    pass
+
+def get_finance_data_json(**kwargs):
+    """
+    Args, see http://developer.nytimes.com/docs/campaign_finance_api
+        resource_type: "candidates","states", "zips", "contributions", ""
+        query_file: "donorsearch", "candidate name", "candidate ID", "location", "totals", zip_code, state_abbr 
+                    (last two only for type states or zips)
+        ------ only for use with contributions ------
+        fname: "first name of donor"
+        lname: "last name of donor"
+        zip: "zip code to search in"
+    Just for candidates, donors TK
+    returns: python dict
+    """
+    kwargs.update({
+        'app_id': '86819c5701a5a20df0d87b54fa470eb4:13:16587746',#'82c5d46190c2377a32bf22012b76de69:5:51039831',
+        'version': 'v2',
+        'response_format':'json',
+        'campaign_type':'president', # move to args when useful
+        'year':'2008', # ditto
+        'data_to_query':'finances', #double ditto
+    })
+    order = ['version','campaign_type','year','data_to_query', 'resource_type', 'query_file']
+    url = NYT_BASE + "/".join(kwargs[stmt] for stmt in order) + "." + kwargs['response_format']
+    url += "?api-key=" + kwargs['app_id']
+    if kwargs.has_key('search'):
+        url += "&" + urllib.urlencode(kwargs['search'])
+    try: 
+        print url
+        result = simplejson.load(urllib.urlopen(url))
+        if result['status'] == "ERROR":
+            # An error occurred; raise an exception
+            raise ResultError
+        return result['results']
+    except ResultError:
+        print "errors! " + url
+        return 'errors'
+
+if __name__=="__main__":
+    test = {
+        'search':{
+                  'fname': 'tim',
+                  'lname': 'barton',
+                },
+        'resource_type': "contributions",
+        'query_file': "donorsearch",
+    }
+    print get_finance_data_json(**test)

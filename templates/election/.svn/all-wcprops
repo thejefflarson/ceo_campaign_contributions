@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/nyt_finance/!svn/ver/11/nyt/templates/election
+END
+state.html
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/nyt_finance/!svn/ver/10/nyt/templates/election/state.html
+END
+percent.json
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/nyt_finance/!svn/ver/10/nyt/templates/election/percent.json
+END
+state.json
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/nyt_finance/!svn/ver/10/nyt/templates/election/state.json
+END
+index.html
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/nyt_finance/!svn/ver/11/nyt/templates/election/index.html
+END
+base.html
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/nyt_finance/!svn/ver/10/nyt/templates/election/base.html
+END

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}{{ state.long_name }}{% endblock %}
+
+{% block content %}
+{% regroup stats by candidate.party as party_list %}
+    {% for party in party_list %}
+    <div class="party {{party.grouper|lower}}">
+        <h1 class="">{{ party.grouper }}</h1>
+        {% regroup party.list by candidate.name as candidate_list%}
+        {% for candidate in candidate_list %}
+            <div class="candidate clearfix {{candidate.grouper}}">
+                <h2 class="">{{ candidate.grouper }}</h2>
+                <ul class="timeline">
+                {% for stat in candidate.list %}
+                    <li class="clearfix">
+                        <a href="">
+                            <span class="numvotes" style="bottom:{{stat.percent}}%">{{ stat.votes }}</span>
+                            <span class="votes" style="height:{{ stat.percent }}%;">&nbsp;</span>
+                            <span class="time">{{ stat.time|date:"f " }}</span>
+                        </a>
+                    </li>
+                {% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+{% endblock %}
