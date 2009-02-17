@@ -1,7 +1,0 @@
-from django.shortcuts import render_to_response
-from nytfinance.models import *
-import simplejson
-# Create your views here.
-def finance_index(Request):
-    ceo_list = Ceo.objects.all()
-    return render_to_response('finance.html')
