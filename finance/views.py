@@ -58,12 +58,12 @@ def ceo_index(Request):
     return render_to_response('finance/ceo_list.html', {"ceo_list": ceo_list})
 
 #           ss   mm   h
-@cache_page(60 * 60)
+@cache_page(60 * 60 * 8)
 def industry_index(Request):
     industry_list = Industry.objects.all().select_related()
     return render_to_response('finance/industry_list.html', {'objects': industry_list})
 
-@cache_page(60 * 60)
+@cache_page(60 * 60 * 8)
 def ceos_to_json(Request, id_string=None):
     ceo_list = Ceo.donated
     limit = 0
