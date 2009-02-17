@@ -1,5 +1,6 @@
 import simplejson, urllib, pprint
 NYT_BASE = "http://api.nytimes.com/svc/elections/us/"
+from beckett.finance.utils.app_id import app_id
 
 
 class ResultError(Exception):
@@ -19,7 +20,7 @@ def get_finance_data_json(**kwargs):
     returns: python dict
     """
     kwargs.update({
-        'app_id': '82c5d46190c2377a32bf22012b76de69:5:51039831',#'86819c5701a5a20df0d87b54fa470eb4:13:16587746',
+        'app_id': app_id,
         'version': 'v2',
         'response_format':'json',
         'campaign_type':'president', # move to args when useful
