@@ -9,6 +9,7 @@ urlpatterns = patterns('',
     # (r'^beckett/', include('beckett.foo.urls')),
 
      (r'^', include('finance.urls')),
+     (r'^feedback/', 'feedback.views.feedback'),
     # Uncomment the admin/doc line below and add 'django.contrib.admindocs' 
     # to INSTALLED_APPS to enable admin documentation:
      (r'^admin/doc/', include('django.contrib.admindocs.urls')),

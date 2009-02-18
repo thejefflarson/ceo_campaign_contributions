@@ -8,7 +8,7 @@ from django.http import HttpResponse, Http404, HttpResponseForbidden, HttpRespon
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
 import simplejson as json
-import random
+import random, os
 
 def limit(name, seconds, max_value, per_ip=True, limit_exceeded_view=None,
 		limit_exceeded_template='connection_limit_exceeded.html'):
@@ -45,6 +45,8 @@ def paginate(objects_list, request, num=25):
     except (EmptyPage, InvalidPage):
         return paginator.page(paginator.num_pages)
 
+def robots(request):
+    return HttpResponse(open(os.path.dirname(os.path.abspath(__file__)) + '/../robots.txt').read(), 'text/plain')
 
 def finance_index(Request):
     donations_by_party = Donation.objects.total_donations_by_party
@@ -136,3 +138,4 @@ def delete_donor(Request, id_string=None):
         return render_to_response('finance/delete_donor.html', { 'ok': 1 })
     return HttpResponseForbidden()
 
+    
