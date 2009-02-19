@@ -7,8 +7,9 @@
     <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAo1FSG5FcFxwjbAvjzMn_DRSwTQmyLrXXUnBi9bfEvTXJ8w45MRRjT2_c29y7wQB1MF7h5AQU-ukxrw" type="text/javascript"></script>
     <script type="text/javascript" src="http://www.google.com/jsapi"></script>
     <script type="text/javascript">
-      google.load("jquery", "1", {uncompressed:true});
+      google.load("jquery", "1");
     </script>
+    <script type="text/javascript" src="{% url all_ceos_to_json %}"></script>
     <script>
     var map;
     var geoXml;
