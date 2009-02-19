@@ -9,6 +9,8 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
 import simplejson as json
 import random, os
+import itertools
+
 
 def limit(name, seconds, max_value, per_ip=True, limit_exceeded_view=None,
 		limit_exceeded_template='connection_limit_exceeded.html'):
@@ -53,6 +55,13 @@ def finance_index(Request):
     donations = Donation.objects.total_donations
     return render_to_response('finance/index.html',{'donations_by_party': donations_by_party,'donations':donations})
 
+def candidate_detail(Request, id_string=None):
+    if id_string == None:
+       raise Http404
+    candidate = get_object_or_404(Candidate, pk=id_string)
+    donation_list = Donation.objects.live().filter(candidate=candidate).order_by('ceo__id').select_related()
+    ceo_list = paginate([ k for k,v in itertools.groupby(donation_list, lambda v: v.ceo)], Request)
+    return render_to_response('finance/candidate_detail.html', {"ceo_list": ceo_list, 'candidate': candidate})
 
 @cache_page(60 * 60)
 def ceo_index(Request):

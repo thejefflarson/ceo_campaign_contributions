@@ -11,12 +11,12 @@ urlpatterns = patterns('beckett.finance.views',
      url(r'^ceos/(?P<id_string>\d+)/edit$', 'edit_ceo', name='edit_ceo'),
      url(r'^donor/(?P<id_string>\d+)/delete$', 'delete_donor', name='delete_donor'),
      url(r'^zips/(?P<zip_code>\d{5}).json$', 'zips_to_json', name='zips_to_json'), 
-     url(r'^zips/(?P<zip_code>\d{5})-data.json$', 'get_zip_data', name="zip_data") 
+     url(r'^zips/(?P<zip_code>\d{5})-data.json$', 'get_zip_data', name="zip_data"), 
+     url(r'^candidates/(?P<id_string>\d+)/$', 'candidate_detail', name="candidate_detail"),
 )
 urlpatterns += patterns('django.views.generic.list_detail',
     (r'^ceos/(?P<object_id>\d+)/$', 'object_detail',  {'queryset': Ceo.donated.live(), }, "ceo_detail", ),
-    (r'^candidates/$', 'object_list',  {'queryset': Candidate.objects.all(), }, "candidate_list", ),
-    (r'^candidates/(?P<object_id>\d+)/$', 'object_detail',  {'queryset': Candidate.objects.all(), }, "candidate_detail", ),
+    (r'^candidates/$', 'object_list',  {'queryset': Candidate.objects.all(), }, "candidate_index", ),
     (r'^industries/(?P<object_id>\d+)/$', 'object_detail',  {'queryset': Industry.objects.all(), }, "industry_detail", ),
 )
 
