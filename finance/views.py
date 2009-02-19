@@ -100,7 +100,7 @@ def ceos_to_json(Request, id_string=None):
                 place['pointlong'] = ceo.company_address.point.y
                 place['pointlat'] = ceo.company_address.point.x
             places.append(place)
-    return HttpResponse(json.dumps(places))
+    return HttpResponse(json.dumps(places), mimetype="application/json")
 
 @cache_page(60 * 60)
 def zips_to_json(Request, zip_code=None):
@@ -108,7 +108,7 @@ def zips_to_json(Request, zip_code=None):
        raise Http404
     zip = Zip.objects.filter(code=zip_code)[0]
     try:
-        return HttpResponse(zip.poly.geojson)
+        return HttpResponse(zip.poly.geojson, mimetype="application/json")
     except AttributeError:
        raise Http404
 
@@ -126,7 +126,7 @@ def get_zip_data(Request, zip_code=None):
             party_dict[resp['party']] += resp['total']
         except KeyError:
             party_dict[resp['party']] = resp['total']
-    return HttpResponse(max(party_dict, key= lambda a: party_dict.get(a)))
+    return HttpResponse(max(party_dict, key= lambda a: party_dict.get(a)), mimetype="application/json")
 
 @cache_page(5)
 def edit_ceo(Request, id_string=None):

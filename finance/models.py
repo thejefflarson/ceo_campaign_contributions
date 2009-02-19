@@ -38,7 +38,7 @@ class Candidate(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('candidate_detail' [str(self.id)])
+        return ('candidate_detail', [str(self.id)])
 
 
 class Address(models.Model):
