@@ -8,7 +8,7 @@
 {% for candidate in object_list|dictsortreversed:"total_donations" %}
 <li>
     <a href="{% url candidate_detail candidate.id %}">{{ candidate.name }}</a>
-    <span class="count {{ candidate.party }}">${{candidate.total_donations}}</span> 
+    <span class="count">${{candidate.total_donations}}</span> 
 <li>
 {% endfor %}
 </ul>

@@ -53,7 +53,7 @@
     <div id="map_canvas"></div>
     <div class="container">
         <div class="column span-6">
-        <h1>${{ donations }} in total public financing</h1>
+        <h1 id="total">${{ donations }} in total public financing <img src="/media/images/chart.png" /></h1>
         {% for k,v in donations_by_party.items %}
             <h2 class="{{k}}">${{v}}</h2>
         {% endfor %}
