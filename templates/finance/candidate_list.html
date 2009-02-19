@@ -1,14 +1,16 @@
-{% extends "base.html" %}
+{% extends "finance/base_finance.html" %}
+{% block title %}{{ block.super }}All Candidates{% endblock %}
 {% load extras %}
 {% block content %}
+<div class="container">
 <ul class="chartlist">
-{% for candidate in object_list %}
+
+{% for candidate in object_list|dictsortreversed:"total_donations" %}
 <li>
     <a href="{% url candidate_detail candidate.id %}">{{ candidate.name }}</a>
-    <span class="count">${{candidate.total_donations}}</span> 
-    <span class="index {{candidate.party.name }}" style="width:{% widthratio candidate.total_donations candidate.party.total_donations 100 %}%">
-({% widthratio candidate.total_donations candidate.party.total_donations 100 %}%)</span>
+    <span class="count {{ candidate.party }}">${{candidate.total_donations}}</span> 
 <li>
 {% endfor %}
 </ul>
+</div>
 {% endblock %}

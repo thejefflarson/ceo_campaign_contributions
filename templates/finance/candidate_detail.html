@@ -1,0 +1,7 @@
+{% extends "finance/ceo_list.html" %}
+{% block title %}CEO Politics - Corporate Donations in the 2008 Presidential Race - {{ candidate.name }}{% endblock %}
+{% load extras %}
+{% block left %}
+<h1>CEOs who donated to {{ candidate.name }}</h1>
+{{ block.super }}
+{% endblock %}
