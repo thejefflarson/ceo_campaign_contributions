@@ -112,7 +112,7 @@ def zips_to_json(Request, zip_code=None):
     except AttributeError:
        raise Http404
 
-@cache_page(60 * 60)
+@cache_page(60 * 60 * 8)
 def get_zip_data(Request, zip_code=None):
     from beckett.finance.utils.nyt_finance_getter import get_finance_data_json
     if zip_code == None:

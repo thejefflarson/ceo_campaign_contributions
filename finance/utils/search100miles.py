@@ -1,4 +1,6 @@
-import math
+import math, sys, os
+
+sys.path.append(os.path.dirname(os.path.abspath(__file__)) + '/../../../')
 from beckett import settings
 from django.core.management import setup_environ
 setup_environ(settings)
@@ -67,9 +69,9 @@ if __name__ == "__main__":
     ceos = Ceo.objects.all()
     ceo_list = []
     for ceo in ceos:
-        try:
+#        try:
             search_100_miles(ceo)
-        except:
+#        except ValueError:
             print 'error %s' % (ceo)
             ceo_list.append(ceo)
 
@@ -77,7 +79,7 @@ if __name__ == "__main__":
         try:
             ceo = ceo_list.pop()
             search_100_miles(ceo)
-        except:
+        except ValueError:
             print 'error %s' % (ceo)
             ceo_list.append(ceo)
 
