@@ -1,16 +1,11 @@
 from django.contrib.gis.db import models
+from beckett.polygons.models import Zip
 from django.db.models import Sum, Q
 import datetime
 
 
 # Create your models here.
 
-class Zip(models.Model):
-    code = models.CharField(max_length=5) # not unique due to discontiguous zip codes
-    poly = models.MultiPolygonField(srid=4269, null=True) #mfing uspa, and census don't line up
-    objects = models.GeoManager()
-    def __unicode__(self):
-        return "%s" % self.code
 
 class Party(models.Model):
     name = models.CharField(max_length=24, unique=True)
@@ -112,7 +107,7 @@ class Ceo(models.Model):
     
     @property
     def total_donations(self):
-        donors = self.donor_set.all().select_related()
+        donors = self.donor_set.live().select_related()
         total_donations = 0
         for donor in donors:
             total_donations += donor.total_donations
