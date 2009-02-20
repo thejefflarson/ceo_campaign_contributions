@@ -17,6 +17,7 @@ urlpatterns = patterns('',
      (r'^', include('finance.urls')),
      (r'^feedback/', 'feedback.views.feedback'),
      (r'^sitemap.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
+     (r'^google083c9739e43de133.html$', 'finance.views.verify'),
     # Uncomment the admin/doc line below and add 'django.contrib.admindocs' 
     # to INSTALLED_APPS to enable admin documentation:
      (r'^admin/doc/', include('django.contrib.admindocs.urls')),

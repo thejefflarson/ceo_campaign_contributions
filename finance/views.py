@@ -147,4 +147,5 @@ def delete_donor(Request, id_string=None):
         return render_to_response('finance/delete_donor.html', { 'ok': 1 })
     return HttpResponseForbidden()
 
-    
+def verify(Request):
+    return HttpResponse('verify!')
