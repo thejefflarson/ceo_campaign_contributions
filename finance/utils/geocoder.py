@@ -12,11 +12,14 @@ def geo_code(address):
     app_id = "ABQIAAAA6JvOBb2RTumkCsWOAMKcmBRy05bz2Ez3szx9GRUEydtISW_OkxRqGIBjuawVqDpmZxzBW-l_IaKwxg"
     g = geocoders.Google(app_id)
     try:
-        place, (lat, lng) = g.geocode(address.address + "," + address.city + ", " + address.state + " " + address.zip.code + " USA")
-        address.point = Point((lat, lng), srid=4326)
-        address.save()
+        res = g.geocode(address.address + "," + address.zip.code + " USA",)
+        place, (lat, lng) = res
+        if lat and lng:
+            address.point = Point((lat, lng), srid=4326)
+            address.save()
     except ValueError, e:
         print e
+            
     return address
     
 
