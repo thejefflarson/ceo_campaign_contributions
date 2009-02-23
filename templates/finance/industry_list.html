@@ -1,11 +1,13 @@
 {% extends "finance/base_finance.html" %}
+{% load extras %}
+{% load cache %}
 {% block title %}
 {{ block.super }} All Industries
 {% endblock %}
-{% load extras %}
 {% block content %}
 <div class="container">
 <ul class="chartlist">
+{% cache 12000 all_industries %}
 {% for industry in objects %}
 <li>
     <a href="{% url industry_detail industry.id %}">{{ industry.name }}</a>
@@ -13,6 +15,7 @@
     {% splitbar industry.total_donations_by_party industry.total_donations %}
 <li>
 {% endfor %}
+{% endcache %}
 </ul>
 </div>
 {% endblock %}
