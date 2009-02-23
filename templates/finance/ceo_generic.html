@@ -29,8 +29,8 @@
                 {% for donor in ceo.donor_set.all %} 
                     {% for donation in donor.donation_set.all %}
                     <tr>
-                        <td> {{ donation.candidate.name }}</td>
-                        <td> ${{ donation.donation_amount }}</td>
+                        <td><a href="{{ donation.candidate.get_absolute_url}}">{{ donation.candidate.name }}</a></td>
+                        <td><span class="{{ donation.candidate.party.name}}">${{ donation.donation_amount }}</span></td>
                         <td>{{ donation.donation_date|date:"F jS, Y" }}</td>
                     </tr>
                     {% endfor %}
