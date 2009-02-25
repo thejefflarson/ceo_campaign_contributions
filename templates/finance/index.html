@@ -9,7 +9,6 @@
     <script type="text/javascript">
       google.load("jquery", "1");
     </script>
-    <script type="text/javascript" src="{% url all_ceos_to_json %}"></script>
     <script>
     var map;
     var geoXml;
@@ -20,31 +19,28 @@
             map = new GMap2(document.getElementById("map_canvas"));
             map.setCenter(new GLatLng(37.809,-96.555), 4); 
             map.addControl(new GLargeMapControl());
-            setupAllMarkers();
         }
     } 
-    function setupAllMarkers(){
-            $.getJSON("{% url all_ceos_to_json %}", 
-                        function(data){ 
-                                var total_donations = 956488;
-                                $.each(data, 
-                                function(i, item){
-                                    var icon = new GIcon(G_DEFAULT_ICON);
-                                    icon.image = icon_img[item.icon];
-                                    icon.shadow = '';
-                                    icon.iconSize = new GSize(item.total/total_donations * 10000,  item.total/total_donations * 10000);
-                                    icon.iconAnchor = new GPoint(icon.iconSize.width/2, icon.iconSize.height/2);
-                                    markerOptions = { icon: icon };
-                                    var lat_lon = new GLatLng(item.pointlat,item.pointlong);
-                                    var mrkr = new GMarker(lat_lon, markerOptions);
-                                    GEvent.addListener(mrkr, "click", function() {
-                                        window.location = item.url;
-                                    });
-                                    map.addOverlay(mrkr);
-                                });
-                        });
+    function setupAllMarkers(data){
+        var total_donations = 956488;
+        $.each(data, 
+        function(i, item){
+            var icon = new GIcon(G_DEFAULT_ICON);
+            icon.image = icon_img[item.icon];
+            icon.shadow = '';
+            icon.iconSize = new GSize(item.total/total_donations * 10000,  item.total/total_donations * 10000);
+            icon.iconAnchor = new GPoint(icon.iconSize.width/2, icon.iconSize.height/2);
+            markerOptions = { icon: icon };
+            var lat_lon = new GLatLng(item.pointlat,item.pointlong);
+            var mrkr = new GMarker(lat_lon, markerOptions);
+            GEvent.addListener(mrkr, "click", function() {
+                window.location = item.url;
+            });
+            map.addOverlay(mrkr);
+        });
     }
     $("document").ready(function () {
+        $.getJSON("{% url all_ceos_to_json %}", setupAllMarkers);
         initialize();
     });
     </script>
