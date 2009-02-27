@@ -13,6 +13,7 @@ urlpatterns = patterns('beckett.finance.views',
      url(r'^zips/(?P<zip_code>\d{5}).json$', 'zips_to_json', name='zips_to_json'), 
      url(r'^zips/(?P<zip_code>\d{5})-data.json$', 'get_zip_data', name="zip_data"), 
      url(r'^candidates/(?P<id_string>\d+)/$', 'candidate_detail', name="candidate_detail"),
+    url(r'^industries/(?P<object_id>\d+)/$', 'industry_detail', name="industry_detail", ),
 )
 urlpatterns += patterns('django.views.generic.list_detail',
     (r'^ceos/(?P<object_id>\d+)/$', 'object_detail',  {'queryset': Ceo.donated.live(), }, "ceo_detail", ),

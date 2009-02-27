@@ -75,6 +75,12 @@ def industry_index(Request):
     return render_to_response('finance/industry_list.html', {'objects': industry_list})
 
 @cache_page(60 * 60 * 8)
+def industry_detail(Request, object_id=None):
+    object = get_object_or_404(Industry, pk=object_id)
+    ceo_list = paginate(object.ceo_set.all(), Request)
+    return render_to_response('finance/industry_detail.html',{'object': object, 'ceo_list':ceo_list})
+    
+@cache_page(60 * 60 * 8)
 def ceos_to_json(Request, id_string=None):
     ceo_list = Ceo.donated
     limit = 0
