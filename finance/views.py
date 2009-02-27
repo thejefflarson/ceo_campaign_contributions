@@ -143,7 +143,7 @@ def edit_ceo(Request, id_string=None):
             'object': ceo
         })
 
-@limit("delete_donor", 60 * 60 * 24 * 7, 1, per_ip=True, limit_exceeded_template="finance/delete_donor_exceeded.html")
+@limit("delete_donor", 2, 60 * 60 * 24 * 7, per_ip=True, limit_exceeded_template="finance/delete_donor_exceeded.html")
 @cache_page(0)
 def delete_donor(Request, id_string=None):
     current_site = Site.objects.get_current().domain
