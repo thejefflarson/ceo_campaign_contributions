@@ -96,8 +96,8 @@ class Ceo(models.Model):
     company_address = models.ForeignKey(Address)
     ctime = models.DateTimeField(auto_now_add=True)
     mtime = models.DateTimeField(auto_now=True)
-    objects = models.GeoManager()
     donated = CeoManager()
+    objects = models.GeoManager()
 
     def __unicode__(self):
         return self.first_name + " " + self.last_name
