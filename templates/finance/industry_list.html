@@ -7,7 +7,7 @@
 {% block content %}
 <div class="container">
 <ul class="chartlist">
-{% cache 12000 all_industries %}
+{% cache 120000 all_industries %}
 {% for industry in objects %}
 <li>
     <a href="{% url industry_detail industry.id %}">{{ industry.name }}</a>
