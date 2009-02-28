@@ -53,7 +53,7 @@ def robots(request):
 def finance_index(Request):
     donations_by_party = Donation.objects.total_donations_by_party
     donations = Donation.objects.total_donations
-    return render_to_response('finance/index.html',{'donations_by_party': donations_by_party,'donations':donations})
+    return render_to_response('finance/index.html',{'donations_by_party': donations_by_party,'donations':donations,})
 
 def candidate_detail(Request, id_string=None):
     if id_string == None:
@@ -143,12 +143,12 @@ def edit_ceo(Request, id_string=None):
             'object': ceo
         })
 
-@limit("delete_donor", 2, 60 * 60 * 24 * 7, per_ip=True, limit_exceeded_template="finance/delete_donor_exceeded.html")
-@cache_page(0)
+@cache_page(1)
+#@limit("delete_donor",  60 * 60, 1, per_ip=True, limit_exceeded_template="finance/delete_donor_exceeded.html")
 def delete_donor(Request, id_string=None):
     current_site = Site.objects.get_current().domain
     donor = get_object_or_404(Donor, pk=id_string)
-    if Request.META['HTTP_REFERER'] == "http://%s%s" % (current_site, donor.ceo.get_edit_url()):
+    if Request.is_ajax():
         donor.delete_soft()
         return render_to_response('finance/delete_donor.html', { 'ok': 1 })
     return HttpResponseForbidden()
