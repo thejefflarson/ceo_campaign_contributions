@@ -1,6 +1,7 @@
 from beckett.finance.models import *
 from django.conf.urls.defaults import *
 from beckett.finance.feeds import AllDonorCeos
+
 urlpatterns = patterns('beckett.finance.views',
      (r'^robots.txt', 'robots'),
      url(r'^$', 'finance_index', name='finance_index'),

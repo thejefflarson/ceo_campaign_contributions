@@ -1,10 +1,9 @@
 import simplejson, urllib, pprint
 NYT_BASE = "http://api.nytimes.com/svc/elections/us/"
 from beckett.finance.utils.app_id import get_app_id
+from beckett.nyt_utils.query import load_json
 
 
-class ResultError(Exception):
-    pass
 
 def get_finance_data_json(**kwargs):
     """
@@ -28,18 +27,8 @@ def get_finance_data_json(**kwargs):
         'data_to_query':'finances', #double ditto
     })
     order = ['version','campaign_type','year','data_to_query', 'resource_type', 'query_file']
-    url = NYT_BASE + "/".join(kwargs[stmt] for stmt in order) + "." + kwargs['response_format']
-    url += "?api-key=" + kwargs['app_id']
-    if kwargs.has_key('search'):
-        url += "&" + urllib.urlencode(kwargs['search'])
-    try: 
-        result = simplejson.load(urllib.urlopen(url))
-        if result['status'] == "ERROR":
-            # An error occurred; raise an exception
-            raise ResultError
-        return result['results']
-    except ResultError:
-        return 'errors'
+    return load_json(order, NYT_BASE, **kwargs)
+
 
 if __name__=="__main__":
     test = {
