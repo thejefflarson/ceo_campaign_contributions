@@ -1,6 +1,7 @@
 from feedback.forms import FeedBackForm
 from django.shortcuts import render_to_response
 from django.core.mail import send_mail, BadHeaderError
+from django.http import HttpResponse, Http404, HttpResponseForbidden, HttpResponseRedirect 
 
 def feedback(Request):
     form = FeedBackForm() # An unbound form
