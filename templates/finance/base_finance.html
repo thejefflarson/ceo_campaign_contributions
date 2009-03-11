@@ -6,8 +6,15 @@
 CEO Politics - Corporate Donations in the 2008 Presidential Race - 
 {% endblock %}
 {% block extra_header %}
-<h2>Corporate Donations in the 2008 Presidential Race</h2>
-<b><a href="{% url candidate_index %}">By Candidate</a>, <a href="{% url ceo_index %}">By Ceo</a>, <a href="{% url industry_index %}">By Industry</a>.</b>
+    <div class="container">
+        <div class="column span-4">
+       	    <a href="/"><img src="/media/images/democracy.png" alt="Democracy!"></a>
+        </div>
+        <div id="header_note" class="column span-2">
+        <h2>Corporate Donations in the 2008 Presidential Race</h2>
+        <b><a href="{% url candidate_index %}">By Candidate</a>, <a href="{% url ceo_index %}">By Ceo</a>, <a href="{% url industry_index %}">By Industry</a>.</b>
+        </div>
+    </div>
 {% endblock %}
 
 {% block content %}

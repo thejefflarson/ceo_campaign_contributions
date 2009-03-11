@@ -1,6 +1,7 @@
 from django.contrib.gis.db import models
 from beckett.polygons.models import Zip
 from django.db.models import Sum, Q
+from collections import defaultdict
 import datetime
 
 
@@ -23,10 +24,10 @@ class Party(models.Model):
 class Candidate(models.Model):
     name = models.CharField(max_length=63, unique=True)
     party = models.ForeignKey(Party)
-    
-    def _total_donations(self):
+
+    @property    
+    def total_donations(self):
         return self.donation_set.live().aggregate(Sum('donation_amount'))['donation_amount__sum']
-    total_donations = property(_total_donations)
 
     class Meta:
         ordering = ['-party', 'name']
@@ -57,15 +58,12 @@ class Industry(models.Model):
     
     @property
     def total_donations_by_party(self):
-        ceos = self.ceo_set.all()
-        total_donations = {}
+        ceos = self.ceo_set.live().iterator()
+        total_donations = defaultdict(int)
         for ceo in ceos:
-            donations = ceo.donation_set.live().select_related()
+            donations = ceo.donation_set.live().select_related().iterator()
             for donation in donations:
-                if donation.party_name in total_donations:
-                    total_donations[donation.party_name] += donation.donation_amount 
-                else:
-                    total_donations[donation.party_name] = donation.donation_amount
+                total_donations[donation.party_name] += donation.donation_amount 
         return total_donations
     
     class Meta:
@@ -80,7 +78,7 @@ class Industry(models.Model):
 class CeoManager(models.GeoManager):
     @property
     def total_donations(self):
-        return sum([c.total_donations for c in super(CeoManager, self).get_query_set().all()])
+        return sum([c.total_donations for c in super(CeoManager, self).get_query_set().live()])
 
     
     def live(self):
@@ -116,16 +114,13 @@ class Ceo(models.Model):
     @property
     def total_donations_by_party(self):
         parties = Party.objects.all()
-        party_dict = {}
+        party_dict = defaultdict(int)
         for party in parties:
             total_donations = self.donation_set.live().filter(party_name = party.name).aggregate(Sum('donation_amount'))['donation_amount__sum']
-            try:
+            if total_donations == None:
+                party_dict[party.name] = 0
+            else:
                 party_dict[party.name] += total_donations
-            except KeyError:
-                if total_donations == None:
-                    party_dict[party.name] = 0
-                else:
-                    party_dict[party.name] = total_donations
         return party_dict 
     
     @property
