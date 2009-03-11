@@ -1,4 +1,4 @@
-import simplejson, urllib2, sys
+import simplejson, urllib2, sys, urllib
 
 class ResultError(Exception):
     pass
@@ -7,7 +7,7 @@ def load_json(order, NYT_BASE, **kwargs):
     url = NYT_BASE + "/".join( kwargs[stmt] for stmt in order if kwargs.has_key(stmt)) + "." + kwargs['response_format']
     url += "?api-key=" + kwargs['app_id']
     if kwargs.has_key('search'):
-        url += "&" + urllib2.urlencode(kwargs['search'])
+        url += "&" + urllib.urlencode(kwargs['search'])
     try:
         try:
             response = urllib2.urlopen(url) 
