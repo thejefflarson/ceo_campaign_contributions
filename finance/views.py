@@ -71,7 +71,7 @@ def ceo_index(Request):
 #           ss   mm   h
 @cache_page(60 * 60 * 8)
 def industry_index(Request):
-    industry_list = Industry.objects.all().select_related()
+    industry_list = Industry.objects.all().select_related().iterator()
     return render_to_response('finance/industry_list.html', {'objects': industry_list})
 
 @cache_page(60 * 60 * 8)
@@ -85,7 +85,7 @@ def ceos_to_json(Request, id_string=None):
     ceo_list = Ceo.donated
     limit = 0
     if id_string==None:
-        ceo_list = Ceo.donated.live().select_related()
+        ceo_list = Ceo.donated.live().select_related().iterator()
         limit = 2300
     else:
         ids = id_string.split('-')

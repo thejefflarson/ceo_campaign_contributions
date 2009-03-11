@@ -10,6 +10,8 @@ def percent(part, whole):
 
 @register.inclusion_tag('finance/split_bar.html')
 def splitbar(dict, total):
+    if hasattr(dict, 'default_factory'): # just to be sure
+        setattr(dict, 'default_factory', None)
     return {'split': dict, 'total': total}
 
 @register.inclusion_tag('finance/ceo_generic.html')
