@@ -58,7 +58,7 @@ class Industry(models.Model):
     
     @property
     def total_donations_by_party(self):
-        ceos = self.ceo_set.live().iterator()
+        ceos = self.ceo_set.all().iterator()
         total_donations = defaultdict(int)
         for ceo in ceos:
             donations = ceo.donation_set.live().select_related().iterator()
