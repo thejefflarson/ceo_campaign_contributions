@@ -5,6 +5,7 @@ from collections import defaultdict
 import datetime
 
 
+
 class Party(models.Model):
     name = models.CharField(max_length=24, unique=True)
     def _total_donations(self):
