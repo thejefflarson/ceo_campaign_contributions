@@ -75,7 +75,7 @@ class Industry(models.Model):
 class CeoManager(models.GeoManager):
     @property
     def total_donations(self):
-        return sum([c.total_donations for c in super(CeoManager, self).get_query_set().live()])
+        return sum([c.total_donations for c in  self.live()])
 
     
     def live(self):
