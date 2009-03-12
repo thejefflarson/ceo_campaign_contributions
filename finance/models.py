@@ -8,6 +8,7 @@ import datetime
 # Create your models here.
 
 
+
 class Party(models.Model):
     name = models.CharField(max_length=24, unique=True)
     def _total_donations(self):
