@@ -2,6 +2,7 @@ from beckett.finance.models import *
 from django.contrib.gis.admin import OSMGeoAdmin
 from django.contrib import admin
 
+
 class ZipcodeAdmin(OSMGeoAdmin):
     search_fields = ('code',)
 class DonationAdmin(admin.ModelAdmin):
