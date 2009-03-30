@@ -5,8 +5,6 @@ from collections import defaultdict
 import datetime
 
 
-# Create your models here.
-
 
 class Party(models.Model):
     name = models.CharField(max_length=24, unique=True)
@@ -78,7 +76,7 @@ class Industry(models.Model):
 class CeoManager(models.GeoManager):
     @property
     def total_donations(self):
-        return sum([c.total_donations for c in super(CeoManager, self).get_query_set().live()])
+        return sum([c.total_donations for c in  self.live()])
 
     
     def live(self):

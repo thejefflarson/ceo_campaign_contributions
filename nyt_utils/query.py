@@ -1,5 +1,7 @@
-import simplejson, urllib2, sys, urllib
+import simplejson, urllib2, sys, urllib, socket
 
+timeout = 3600
+socket.setdefaulttimeout(timeout)
 class ResultError(Exception):
     pass
 
@@ -10,9 +12,9 @@ def load_json(order, NYT_BASE, **kwargs):
         url += "&" + urllib.urlencode(kwargs['search'])
     try:
         try:
-            response = urllib2.urlopen(url) 
-            result = simplejson.load(response)
 #            sys.stdout.write('trying %s\n' % (url))
+            response = urllib.urlopen(url) 
+            result = simplejson.load(response)
         except ValueError,e:
             sys.stderr.write('error: %s url: %s resp: %s\n' %(e,url, response.read()))
             return 'error: %s url: %s\n' %(e,url)
