@@ -1,9 +1,6 @@
 import sys
 import os
 from django.core.handlers.wsgi import WSGIHandler
-import cProfile
-import time
-import repoze
 from repoze.profile.profiler import AccumulatingProfileMiddleware
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)) + '/..')
