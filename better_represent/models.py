@@ -11,7 +11,7 @@ from django.contrib.contenttypes import generic
 from django.db.models.query import QuerySet
 from django.db.models import Count, Max, Q
 from beckett.polygons.models import Zip, CongressionalDistrict, State
-from django.core.cache import cache
+from persistent_store.django_tokyo_persistent_store import tyrant_store
 # Create your models here.
 
 
@@ -54,7 +54,7 @@ class Address(models.Model):
                                                                             "/web/geocode_db/geocoder.db", 
                                                                             self.address], 
                                                                             stdout=subprocess.PIPE).communicate())
-        super(Address, self).save(force_insert, force_update)
+        return super(Address, self).save(force_insert, force_update)
 
     @models.permalink
     def get_absolute_url(self):
@@ -96,8 +96,25 @@ class GenericRep(models.Model):
     end_date = models.DateField(null=True)
     congresses = models.ManyToManyField(Congress, through='CongressMembership')
     district = models.ForeignKey(CongressionalDistrict, null=True)
+    slug = models.SlugField(max_length=50)
     objects = RepManager()
     
+    def save(self, force_insert=False, force_update=False):
+        self.slug = slugify("-".join([self.first_name, self.last_name]))
+        return super(GenericRep, self).save(force_insert, force_update)
+        
+    
+    @property
+    def tyrant_key(self):
+        return "rep-%s-items" % self.pk
+
+    def _set_items(self, value):
+        tyrant_store.set(self.tyrant_key, value)
+
+    def _get_items(self):
+        return tyrant_store.get(self.tyrant_key)
+    
+    items = property(_get_items, _set_items)
     
     def stats_by_day(self, timeframe=None, start=None):
         if isinstance(timeframe, timedelta) == False:
@@ -133,6 +150,10 @@ class GenericRep(models.Model):
 
     class Meta:
         pass
+    
+    @models.permalink
+    def get_absolute_url(self):
+        return ('rep_detail', (), {'rep_id':self.pk, 'slug': self.slug})
 
     def __unicode__(self):
         return "%s %s %s" % ( self.get_type_display(), self.first_name, self.last_name)

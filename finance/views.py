@@ -7,6 +7,7 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse, Http404, HttpResponseForbidden, HttpResponseRedirect 
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
+from django.template import RequestContext
 import simplejson as json
 import random, os
 import itertools
@@ -53,7 +54,7 @@ def robots(request):
 def finance_index(Request):
     donations_by_party = Donation.objects.total_donations_by_party
     donations = Donation.objects.total_donations
-    return render_to_response('finance/index.html',{'donations_by_party': donations_by_party,'donations':donations,})
+    return render_to_response('finance/index.html',{'donations_by_party': donations_by_party,'donations':donations,}, context_instance=RequestContext(Request))
 
 def candidate_detail(Request, id_string=None):
     if id_string == None:
@@ -61,24 +62,24 @@ def candidate_detail(Request, id_string=None):
     candidate = get_object_or_404(Candidate, pk=id_string)
     donation_list = Donation.objects.live().filter(candidate=candidate).order_by('ceo__id').select_related()
     ceo_list = paginate([ k for k,v in itertools.groupby(donation_list, lambda v: v.ceo)], Request)
-    return render_to_response('finance/candidate_detail.html', {"ceo_list": ceo_list, 'candidate': candidate})
+    return render_to_response('finance/candidate_detail.html', {"ceo_list": ceo_list, 'candidate': candidate},  context_instance=RequestContext(Request))
 
 @cache_page(60 * 60)
 def ceo_index(Request):
     ceo_list = paginate(Ceo.donated.live().select_related(), Request)
-    return render_to_response('finance/ceo_list.html', {"ceo_list": ceo_list})
+    return render_to_response('finance/ceo_list.html', {"ceo_list": ceo_list},  context_instance=RequestContext(Request))
 
 #           ss   mm   h
 @cache_page(60 * 60 * 8)
 def industry_index(Request):
     industry_list = Industry.objects.all().select_related().iterator()
-    return render_to_response('finance/industry_list.html', {'objects': industry_list})
+    return render_to_response('finance/industry_list.html', {'objects': industry_list},  context_instance=RequestContext(Request))
 
 @cache_page(60 * 60 * 8)
 def industry_detail(Request, object_id=None):
     object = get_object_or_404(Industry, pk=object_id)
     ceo_list = paginate(object.ceo_set.all(), Request)
-    return render_to_response('finance/industry_detail.html',{'object': object, 'ceo_list':ceo_list})
+    return render_to_response('finance/industry_detail.html',{'object': object, 'ceo_list':ceo_list},  context_instance=RequestContext(Request))
     
 @cache_page(60 * 60 * 8)
 def ceos_to_json(Request, id_string=None):
@@ -141,7 +142,7 @@ def edit_ceo(Request, id_string=None):
     return render_to_response('finance/edit_ceo.html', {
             'donors': donors,
             'object': ceo
-        })
+        },  context_instance=RequestContext(Request))
 
 @cache_page(1)
 #@limit("delete_donor",  60 * 60, 1, per_ip=True, limit_exceeded_template="finance/delete_donor_exceeded.html")

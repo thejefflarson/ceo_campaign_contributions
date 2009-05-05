@@ -5,6 +5,8 @@ from repoze.profile.profiler import AccumulatingProfileMiddleware
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)) + '/..')
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+import monitor
+monitor.start(interval=1.0)
 os.environ['DJANGO_SETTINGS_MODULE'] = 'beckett.settings'
 
 application = WSGIHandler()
