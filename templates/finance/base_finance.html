@@ -8,7 +8,7 @@ CEO Politics - Corporate Donations in the 2008 Presidential Race -
 {% block extra_header %}
     <div class="container">
         <div class="column span-4">
-       	    <a href="/"><img src="{{ media_url }}/images/democracy.png" alt="Democracy!"></a>
+       	    <a href="/"><img src="{{ MEDIA_URL }}/images/democracy.png" alt="Democracy!"></a>
         </div>
         <div id="header_note" class="column span-2">
         <h2>Corporate Donations in the 2008 Presidential Race</h2>
@@ -30,7 +30,7 @@ CEO Politics - Corporate Donations in the 2008 Presidential Race -
         </div>
         <div class="column span-2">
         {% block legend %}
-        The circles (<img src="/media/images/blue_circle.png" style="display:inline; position:relative; top:4px;" width="16" height="16" /><img src="/media/images/red_circle.png" style="display:inline; position:relative; top:4px;" width="16" height="16" />) above are each CEO's relative share of the total financial contributions. The split bars (<img src="/media/images/splitbars.png" style="display:inline" />) under each CEO's name, on the left, are how each CEO's donations break down.  
+        The circles (<img src="{{ MEDIA_URL }}/images/blue_circle.png" style="display:inline; position:relative; top:4px;" width="16" height="16" /><img src="{{ MEDIA_URL }}/images/red_circle.png" style="display:inline; position:relative; top:4px;" width="16" height="16" />) above are each CEO's relative share of the total financial contributions. The split bars (<img src="{{ MEDIA_URL }}/images/splitbars.png" style="display:inline" />) under each CEO's name, on the left, are how each CEO's donations break down.  
         {% endblock %}
         {% block right %}
 

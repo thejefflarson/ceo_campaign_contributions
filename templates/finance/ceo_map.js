@@ -7,7 +7,7 @@
     var map;
     var geoXml;
     var mgr;
-    var icon_img = { 'R': '/media/images/red_circle.png', 'D': '/media/images/blue_circle.png' };
+    var icon_img = { 'R': '{{ MEDIA_URL }}/images/red_circle.png', 'D': '{{ MEDIA_URL }}/images/blue_circle.png' };
     function initialize() {
         if (GBrowserIsCompatible()) {
             map = new GMap2(document.getElementById("map_canvas"));
