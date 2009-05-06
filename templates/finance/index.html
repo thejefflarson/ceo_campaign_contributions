@@ -13,7 +13,7 @@
     var map;
     var geoXml;
     var mgr;
-    var icon_img = { 'R': '{{media_url}}/images/red_circle.png', 'D': '{{ media_url }}/images/blue_circle.png' };
+    var icon_img = { 'R': '{{ MEDIA_URL }}/images/red_circle.png', 'D': '{{ MEDIA_URL }}/images/blue_circle.png' };
     function initialize() {
         if (GBrowserIsCompatible()) {
             map = new GMap2(document.getElementById("map_canvas"));
@@ -23,20 +23,20 @@
     } 
     function setupAllMarkers(data){
         var total_donations = 956488;
-        $.each(data, 
-        function(i, item){
-            var icon = new GIcon(G_DEFAULT_ICON);
-            icon.image = icon_img[item.icon];
-            icon.shadow = '';
-            icon.iconSize = new GSize(item.total/total_donations * 10000,  item.total/total_donations * 10000);
-            icon.iconAnchor = new GPoint(icon.iconSize.width/2, icon.iconSize.height/2);
-            markerOptions = { icon: icon };
-            var lat_lon = new GLatLng(item.pointlat,item.pointlong);
-            var mrkr = new GMarker(lat_lon, markerOptions);
-            GEvent.addListener(mrkr, "click", function() {
-                window.location = item.url;
-            });
-            map.addOverlay(mrkr);
+        $.each(data,
+            function(i, item){
+                var icon = new GIcon(G_DEFAULT_ICON);
+                icon.image = icon_img[item.icon];
+                icon.shadow = '';
+                icon.iconSize = new GSize(item.total/total_donations * 10000,  item.total/total_donations * 10000);
+                icon.iconAnchor = new GPoint(icon.iconSize.width/2, icon.iconSize.height/2);
+                markerOptions = { icon: icon };
+                var lat_lon = new GLatLng(item.pointlat,item.pointlong);
+                var mrkr = new GMarker(lat_lon, markerOptions);
+                GEvent.addListener(mrkr, "click", function() {
+                    window.location = item.url;
+                });
+                map.addOverlay(mrkr);
         });
     }
     $("document").ready(function () {
@@ -49,7 +49,7 @@
     <div id="map_canvas"></div>
     <div class="container">
         <div class="column span-6">
-        <h1 id="total">${{ donations }} in total public financing <img src="{{ media_url }}/images/chart.png" /></h1>
+        <h1 id="total">${{ donations }} in total public financing <img src="{{ MEDIA_URL }}/images/chart.png" /></h1>
         {% for k,v in donations_by_party.items %}
             <h2 class="{{k}}">${{v}}</h2>
         {% endfor %}

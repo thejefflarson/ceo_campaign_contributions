@@ -17,9 +17,9 @@ urlpatterns = patterns('beckett.finance.views',
     url(r'^industries/(?P<object_id>\d+)/$', 'industry_detail', name="industry_detail", ),
 )
 urlpatterns += patterns('django.views.generic.list_detail',
-    (r'^ceos/(?P<object_id>\d+)/$', 'object_detail',  {'queryset': Ceo.donated.live(), }, "ceo_detail", ),
-    (r'^candidates/$', 'object_list',  {'queryset': Candidate.objects.all(), }, "candidate_index", ),
-    (r'^industries/(?P<object_id>\d+)/$', 'object_detail',  {'queryset': Industry.objects.all(), }, "industry_detail", ),
+    url(r'^ceos/(?P<object_id>\d+)/$', 'object_detail',  {'queryset': Ceo.donated.live(), }, "ceo_detail", ),
+    url(r'^candidates/$', 'object_list',  {'queryset': Candidate.objects.all(), }, "candidate_index", ),
+    url(r'^industries/(?P<object_id>\d+)/$', 'object_detail',  {'queryset': Industry.objects.all(), }, "industry_detail", ),
 )
 
 
