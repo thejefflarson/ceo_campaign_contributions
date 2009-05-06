@@ -7,12 +7,13 @@
 {% block title %}{% endblock %}
 </title>
 <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.6.0/build/reset/reset-min.css">
-<link rel="stylesheet" type="text/css" href="/media/css/base.css">
+<link rel="stylesheet" type="text/css" href="{{ media_url }}/css/base.css">
 {% block extra_css %}{% endblock %}
+{% block extra_js %}{% endblock %}
 </head>
 <body>
 <div id="header">
-        {% block extra_header %}{% endblock %} 
+{% block extra_header %}{% endblock %} 
 </div>
 {% block content %}
 {% endblock %}
@@ -25,7 +26,6 @@
         </div>
     </div>
 </div>
-{% block extra_js %}{% endblock %}
 <script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));

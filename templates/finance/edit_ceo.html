@@ -9,7 +9,7 @@
     function show_donors(){
     {% for donor in donors %}
         icon = new GIcon(G_DEFAULT_ICON);
-        icon.image = "/media/images/{{ forloop.counter }}.png";
+        icon.image = "{{ media_url }}/images/{{ forloop.counter }}.png";
         icon.shadow = '';
         icon.iconSize = new GSize(16,16);
         icon.iconAnchor = new GPoint(icon.iconSize.width/2, icon.iconSize.height/2);
@@ -44,7 +44,7 @@ Something amiss? Because I have faith in you to do the right thing, you can choo
 </p>
 <div id="msg"></div> 
     {% for donor in donors %}
-        <b>Donation made from:</b> <img src="/media/images/{{ forloop.counter }}.png" style="display:inline; position:relative; top: 3px" /> {{ donor.donor_address.city }}, {{ donor.donor_address.state }}
+        <b>Donation made from:</b> <img src="{{ media_url }}/images/{{ forloop.counter }}.png" style="display:inline; position:relative; top: 3px" /> {{ donor.donor_address.city }}, {{ donor.donor_address.state }}
                 <span class="small">
                 {% if donor.approved %}
                     <a href="{% url delete_donor donor.id %}" class="delete_donor" rel="nofollow">Delete</a>

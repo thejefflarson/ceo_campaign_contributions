@@ -13,7 +13,7 @@
     var map;
     var geoXml;
     var mgr;
-    var icon_img = { 'R': '/media/images/red_circle.png', 'D': '/media/images/blue_circle.png' };
+    var icon_img = { 'R': '{{media_url}}/images/red_circle.png', 'D': '{{ media_url }}/images/blue_circle.png' };
     function initialize() {
         if (GBrowserIsCompatible()) {
             map = new GMap2(document.getElementById("map_canvas"));
@@ -49,7 +49,7 @@
     <div id="map_canvas"></div>
     <div class="container">
         <div class="column span-6">
-        <h1 id="total">${{ donations }} in total public financing <img src="/media/images/chart.png" /></h1>
+        <h1 id="total">${{ donations }} in total public financing <img src="{{ media_url }}/images/chart.png" /></h1>
         {% for k,v in donations_by_party.items %}
             <h2 class="{{k}}">${{v}}</h2>
         {% endfor %}
