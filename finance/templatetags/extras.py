@@ -1,4 +1,5 @@
 from django import template
+import settings
 
 register = template.Library()
 @register.simple_tag
@@ -20,4 +21,4 @@ def ceo_generic(ceo):
 
 @register.inclusion_tag('finance/ceo_map.js')
 def map_ceos(ceos):
-    return {'ceo_list': ceos}
+    return {'ceo_list': ceos, 'MEDIA_URL': settings.MEDIA_URL}

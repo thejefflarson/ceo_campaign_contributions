@@ -15,7 +15,7 @@ urlpatterns = patterns('',
     # (r'^beckett/', include('beckett.foo.urls')),
 
      (r'^', include('finance.urls')),
-     (r'^better_represent/', include('better_represent.urls')),
+#    (r'^better_represent/', include('better_represent.urls')),
      (r'^feedback/', 'feedback.views.feedback'),
      (r'^sitemap.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
      (r'^google083c9739e43de133.html$', 'finance.views.verify'),

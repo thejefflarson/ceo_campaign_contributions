@@ -16,6 +16,7 @@
             setupAllMarkers();
         }
     } 
+    /* test */
     function setupAllMarkers(){
             $.getJSON("{% url ceo_index %}{% for ceo in ceo_list %}{{ceo.id}}-{% endfor %}.json", 
                         function(data){ 
